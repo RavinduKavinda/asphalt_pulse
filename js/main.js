@@ -5,11 +5,12 @@ c.height = 500;
 document.body.appendChild(c);
 
 var perm = [];
+let val;
 while (perm.length < 255) {
-  while (perm.includes((val = Math.floor(Math.random() * 255))));
+  while (perm.includes((val = Math.floor(Math.random() * 255)))) ;
   perm.push(val);
 }
-var lerp = (a, b, c) => a + (b - a) * c;
+var lerp = (a, b, t) => a + (b - a) * (1 - Math.cos(t * Math.PI))/2;
 var noise = (x) => {
   // width size
   x = x * 0.01 % 255
@@ -38,7 +39,7 @@ function loop() {
 
   // adjust height
   for (let i = 0; i < c.width; i++)
-    ctx.lineTo(i, c.height - noise(i) * 0.3);
+    ctx.lineTo(i, c.height - noise(i) * 0.5);
   ctx.lineTo(c.width, c.height);
   ctx.fill();
 }
