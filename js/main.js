@@ -11,6 +11,8 @@ while (perm.length < 255) {
 }
 var lerp = (a, b, c) => a + (b - a) * c;
 var noise = (x) => {
+  // width size
+  x = x * 0.01 % 255
   return lerp(perm[Math.floor(x)], perm[Math.ceil(x)], x - Math.floor(x));
 };
 
@@ -31,9 +33,13 @@ function loop() {
 
   ctx.fillStyle = "black";
   ctx.beginPath();
-  for (let i = 0; i < c.width; i++)
-    ctx.lineTo(i, noise(i));
 
+  ctx.moveTo(0, c.height);
+
+  // adjust height
+  for (let i = 0; i < c.width; i++)
+    ctx.lineTo(i, c.height - noise(i) * 0.3);
+  ctx.lineTo(c.width, c.height);
   ctx.fill();
 }
 
