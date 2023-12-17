@@ -4,7 +4,17 @@ c.width = 1000;
 c.height = 500;
 document.body.appendChild(c);
 
-/* Background Color*/
+var perm = [];
+while (perm.length < 255) {
+  while (perm.includes((val = Math.floor(Math.random() * 255))));
+  perm.push(val);
+}
+var lerp = (a, b, c) => a + (b - a) * c;
+var noise = (x) => {
+  return lerp(perm[Math.floor(x)], perm[Math.ceil(x)], x - Math.floor(x));
+};
+
+/* Background Color */
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -18,11 +28,18 @@ function getRandomColor() {
 function loop() {
   ctx.fillStyle = getRandomColor();
   ctx.fillRect(0, 0, c.width, c.height);
+
+  ctx.fillStyle = "black";
+  ctx.beginPath();
+  for (let i = 0; i < c.width; i++)
+    ctx.lineTo(i, noise(i));
+
+  ctx.fill();
 }
 
 loop();
 
 // set the change interval
-setInterval(function() {
+setInterval(function () {
   requestAnimationFrame(loop);
 }, 50000);
