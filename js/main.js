@@ -16,6 +16,7 @@ var noise = x => {
   return lerp(perm[Math.floor(x)], perm[Math.ceil(x)], x - Math.floor(x));
 };
 
+// player
 var player = new function (){
   this.x = c.width/2;
   this.y = 0;
@@ -24,7 +25,11 @@ var player = new function (){
   this.img = new Image();
   this.img.src = "./../assest/racing.png";
   this.draw = function (){
-    ctx.drawImage(this.img, this.x, 100);
+    var p1 = c.height - noise(t + this.x) * 0.5;
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.drawImage(this.img, -200, 0, 50, 50);
+    ctx.restore();
   }
 
 }
